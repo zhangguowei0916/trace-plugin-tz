@@ -76,9 +76,6 @@ public class TracePluginCommon extends CordovaPlugin {
         }
         if("show".equals(action)){
             mBixolonPrinter.findBluetoothPrinters();
-            Intent intent = new Intent(cordova.getActivity(), DemoActivity.class);
-            cordova.startActivityForResult((CordovaPlugin) this, intent, 200);
-
             AlertDialog.Builder builder = new AlertDialog.Builder(cordova.getActivity());
             builder.setTitle("提示");
             builder.setMessage(args.getString(0));
