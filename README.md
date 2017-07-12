@@ -1,9 +1,9 @@
 # PhoneGap Plugin BarcodeScanner
 ================================
 
-[![Build Status](https://travis-ci.org/phonegap/phonegap-plugin-barcodescanner.svg)](https://travis-ci.org/phonegap/phonegap-plugin-barcodescanner)
+[![Build Status](https://travis-ci.org/phonegap/phonegap-plugin-trace.svg)](https://travis-ci.org/phonegap/phonegap-plugin-trace)
 
-**Note: This repository is no longer maintained. The official repository is now at [phonegap/phonegap-plugin-barcodescanner](http://github.com/phonegap/phonegap-plugin-barcodescanner).**
+**Note: This repository is no longer maintained. The official repository is now at [phonegap/phonegap-plugin-trace](http://github.com/phonegap/phonegap-plugin-trace).**
 
 Cross-platform BarcodeScanner for Cordova / PhoneGap.
 
@@ -14,15 +14,15 @@ Follows the [Cordova Plugin spec](http://cordova.apache.org/docs/en/5.0.0/plugin
     
 This requires phonegap 5.0+ ( current stable v3.0.0 )
 
-    phonegap plugin add phonegap-plugin-barcodescanner
+    phonegap plugin add phonegap-plugin-trace
 
 Older versions of phonegap can still install via the __deprecated__ id ( stale v2.0.1 )
 
-    phonegap plugin add com.phonegap.plugins.barcodescanner
+    phonegap plugin add com.phonegap.plugins.leanit
 
 It is also possible to install via repo url directly ( unstable )
 
-    phonegap plugin add https://github.com/phonegap/phonegap-plugin-barcodescanner.git
+    phonegap plugin add https://git.oschina.net/leanit/trace-plugin.git
 
 ### Supported Platforms
 
@@ -122,17 +122,15 @@ The following barcode types are currently supported:
 
 A full example could be:
 ```
-   cordova.plugins.barcodeScanner.scan(
-      function (result) {
-          alert("We got a barcode\n" +
-                "Result: " + result.text + "\n" +
-                "Format: " + result.format + "\n" +
-                "Cancelled: " + result.cancelled);
-      }, 
-      function (error) {
-          alert("Scanning failed: " + error);
-      }
-   );
+cordova.plugins.barcodeScanner.show(function (result) {
+					alert("We got a barcode\n" +
+						"Result: " + result.text + "\n" +
+						"Format: " + result.format + "\n" +
+						"Cancelled: " + result.cancelled);
+				},
+				function (error) {
+					alert("Scanning failed: " + error);
+				},'sdasdasdasdasd');
 ```
 
 ## Encoding a Barcode ##
@@ -146,52 +144,10 @@ Supported encoding types:
 * PHONE_TYPE
 * SMS_TYPE
 
-```
-A full example could be:
-
-   cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, "http://www.nytimes.com", function(success) {
-            alert("encode success: " + success);
-          }, function(fail) {
-            alert("encoding failed: " + fail);
-          }
-        );
-```
-
-## Windows8 quirks ##
-Windows 8 implementation currently doesn't support encode functionality.
-
-## Windows Phone 8 quirks ##
-Windows Phone 8 implementation currently doesn't support encode functionality.
-
-## BlackBerry 10 quirks
-BlackBerry 10 implementation currently doesn't support encode functionality.
-Cancelling a scan on BlackBerry 10 is done by touching the screen.
-
 ## Thanks on Github ##
-
-So many -- check out the original [iOS](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/iOS/BarcodeScanner),  [Android](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/BarcodeScanner) and 
-[BlackBerry 10](https://github.com/blackberry/WebWorks-Community-APIs/tree/master/BB10-Cordova/BarcodeScanner) repos.
 
 ## Licence ##
 
 The MIT License
 
-Copyright (c) 2010 Matt Kane
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Copyright (c) 2017 leanIt
