@@ -69,9 +69,8 @@ public class TracePluginCommon extends CordovaPlugin {
     public static final int MESSAGE_START_WORK = Integer.MAX_VALUE - 2;
     public static final int MESSAGE_END_WORK = Integer.MAX_VALUE - 3;
 
-    public static boolean mIsConnected;
+    public static boolean mIsConnected=false;
     public static BixolonPrinter mBixolonPrinter;
-    public static Boolean IS_LINK=true;
 
     @Override
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
@@ -82,7 +81,7 @@ public class TracePluginCommon extends CordovaPlugin {
             mBixolonPrinter.findBluetoothPrinters();
             return true;
         }else if("print".equals(action)){
-            new CommonPrintThread(cordova.getActivity(),"http://dev.static.leanit.com.cn/upload/trace/s/m/1499910556806.jpg").print();
+            new CommonPrintThread(cordova.getActivity(),args.getString(0)).print();
             return true;
         }
         return super.execute(action, args, callbackContext);
@@ -325,6 +324,7 @@ public class TracePluginCommon extends CordovaPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mIsConnected=false;
         mBixolonPrinter.disconnect();
     }
 

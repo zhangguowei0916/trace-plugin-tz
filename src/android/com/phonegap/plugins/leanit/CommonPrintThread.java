@@ -34,6 +34,7 @@ public class CommonPrintThread {
         this.context = context;
         this.url = url;
     }
+
     public static String getBlueToothAdapter() throws IllegalArgumentException {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();  //获取已经保存过的设备信息
         if (null == blueadapter) {
@@ -49,13 +50,15 @@ public class CommonPrintThread {
 
         return "";
     }
+
     public void print() {
-        if (!TracePluginCommon.IS_LINK) {
+        if (!TracePluginCommon.mIsConnected) {
             String checkStrLink = getBlueToothAdapter();
-            if (null==checkStrLink||""==checkStrLink) {
+            if (null == checkStrLink || "" == checkStrLink) {
                 showMessage = checkStrLink;
                 showHandler.sendEmptyMessage(0);
             } else {
+                showMessage = "请先连接蓝牙设备";
                 showHandler.sendEmptyMessage(1);
             }
         } else {
@@ -66,17 +69,12 @@ public class CommonPrintThread {
                     Bitmap bitmap = null;
                     try {
                         bitmap = getBitMBitmap(url);
-//						Glide.with(context)
-//                                .load(url)
-//                                .asBitmap() //必须
-//                                .centerCrop()
-//                                .into(1000,1000)
-//                                .get();
                         if (null == bitmap) {
+                            showMessage = "二维码不存在";
                             showHandler.sendEmptyMessage(0);
                         } else {
                             TracePluginCommon.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, 450, 50, false, false, true);
-                            TracePluginCommon.mBixolonPrinter.printText("中国中铁",1,16,16,false);
+                            TracePluginCommon.mBixolonPrinter.printText("中国中铁一局", 1, 16, 16, false);
                             TracePluginCommon.mBixolonPrinter.formFeed(true);
                         }
                     } catch (Exception e) {
@@ -87,6 +85,7 @@ public class CommonPrintThread {
         }
 
     }
+
     public static Bitmap getBitMBitmap(String urlpath) {
         Bitmap map = null;
         try {
@@ -102,6 +101,7 @@ public class CommonPrintThread {
         }
         return map;
     }
+
     public final Handler showHandler = new Handler(new Handler.Callback() {
 
         @SuppressWarnings("unchecked")
