@@ -74,7 +74,7 @@ public class TracePluginCommon extends CordovaPlugin {
         if (null == mBixolonPrinter) {
             mBixolonPrinter = new BixolonPrinter(cordova.getActivity(), mHandler, null);
         }
-        if("show".equals(action)){
+        if("link".equals(action)){
             mBixolonPrinter.findBluetoothPrinters();
             return true;
         }else if("print".equals(action)){

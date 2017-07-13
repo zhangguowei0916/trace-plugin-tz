@@ -27,7 +27,7 @@ function TracePluginCommon() {
  *    }
  * @param {Function} errorCallback
  */
-TracePluginCommon.prototype.show =
+TracePluginCommon.prototype.link =
  function(content){
     exec(
     function(message){//成功回调function
@@ -37,7 +37,21 @@ TracePluginCommon.prototype.show =
         console.log(message);
     },
     "TracePluginCommon",//feature name
-    "show",//action
+    "link",//action
+    [content]//要传递的参数，json格式
+    );
+}
+TracePluginCommon.prototype.print =
+ function(content){
+    exec(
+    function(message){//成功回调function
+        console.log(message);
+    },
+    function(message){//失败回调function
+        console.log(message);
+    },
+    "TracePluginCommon",//feature name
+    "print",//action
     [content]//要传递的参数，json格式
     );
 }
