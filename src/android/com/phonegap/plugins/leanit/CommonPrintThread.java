@@ -1,4 +1,4 @@
-package com.leanit.qrcode_trace_android.common;
+package com.phonegap.plugins.leanit;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,11 +10,7 @@ import android.widget.Toast;
 
 import com.bixolon.printer.BixolonPrinter;
 import com.bumptech.glide.Glide;
-import com.leanit.qrcode_trace_android.MainActivity;
-import com.leanit.qrcode_trace_android.R;
-import com.leanit.qrcode_trace_android.common.util.AndroidUtil;
-import com.leanit.qrcode_trace_android.common.util.LeanItStringUtil;
-import com.leanit.qrcode_trace_android.common.util.PropertieUtil;
+import com.phonegap.plugins.leanit.TracePluginCommon;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -30,15 +26,28 @@ public class CommonPrintThread {
         this.context = context;
         this.url = url;
     }
+    public static String getBlueToothAdapter() throws IllegalArgumentException {
+        BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();  //获取已经保存过的设备信息
+        if (null == blueadapter) {
+            return "您的手机不支持蓝牙设备";
+        } else if (!blueadapter.isEnabled()) {
+            return "蓝牙设备未开启";
+        } else {
+            Set<BluetoothDevice> device = blueadapter.getBondedDevices();
+            if (null == device || device.size() < 1) {
+                return "蓝牙设备未配对打印机";
+            }
+        }
 
+        return "";
+    }
     public void print() {
         if (!CommonConstant.IS_LINK) {
-            String checkStrLink = AndroidUtil.getBlueToothAdapter();
-            if (LeanItStringUtil.isNotEmpty(checkStrLink)) {
+            String checkStrLink = getBlueToothAdapter();
+            if (null==checkStrLink||''==checkStrLink) {
                 showMessage = checkStrLink;
                 showHandler.sendEmptyMessage(0);
             } else {
-                showMessage = context.getResources().getString(R.string.show_waring_no_bluetooth);
                 showHandler.sendEmptyMessage(1);
             }
         } else {
@@ -49,21 +58,19 @@ public class CommonPrintThread {
                     Bitmap bitmap = null;
                     try {
                         bitmap = Glide.with(context)
-                                .load(PropertieUtil.getProperties(context, CommonConstant.IMAGE_URL) + url)
+                                .load(url)
                                 .asBitmap() //必须
                                 .centerCrop()
                                 .into(1000,1000)
                                 .get();
                         if (null == bitmap) {
-                            showMessage = context.getResources().getString(R.string.show_waring_no_qrcode);
                             showHandler.sendEmptyMessage(0);
                         } else {
-                            MainActivity.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, 450, 50, false, false, true);
-                            MainActivity.mBixolonPrinter.printText(context.getResources().getString(R.string.company),1,16,16,false);
-                            MainActivity.mBixolonPrinter.formFeed(true);
+                            TracePluginCommon.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, 450, 50, false, false, true);
+                            TracePluginCommon.mBixolonPrinter.printText(context.getResources().getString(R.string.company),1,16,16,false);
+                            TracePluginCommon.mBixolonPrinter.formFeed(true);
                         }
                     } catch (Exception e) {
-                        showMessage = context.getResources().getString(R.string.show_waring_qrcode);
                         showHandler.sendEmptyMessage(0);
                     }
                 }
@@ -97,11 +104,9 @@ public class CommonPrintThread {
                     }).start();
                     break;
                 case 2:
-                    final SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                    pDialog.setTitleText("正在打印...");
-                    pDialog.setCancelable(false);
-                    pDialog.show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(cordova.getActivity());
+                    builder.setTitle("提示");
+                    builder.setMessage("正在打印..");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -110,7 +115,7 @@ public class CommonPrintThread {
                             } catch (InterruptedException e) {
                                 Log.d("Thread", e.getMessage());
                             }
-                            pDialog.dismiss();
+                            dialog.dismiss();
 
                         }
                     }).start();

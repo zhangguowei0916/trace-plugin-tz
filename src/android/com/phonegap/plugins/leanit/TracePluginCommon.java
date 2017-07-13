@@ -7,6 +7,8 @@
  * Copyright (c) 2013, Maciej Nux Jaros
  */
 package com.phonegap.plugins.leanit;
+
+import com.phonegap.plugins.leanit;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
