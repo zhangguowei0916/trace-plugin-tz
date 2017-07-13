@@ -76,31 +76,13 @@ public class TracePluginCommon extends CordovaPlugin {
         }
         if("show".equals(action)){
             mBixolonPrinter.findBluetoothPrinters();
-            AlertDialog.Builder builder = new AlertDialog.Builder(cordova.getActivity());
-            builder.setTitle("提示");
-            builder.setMessage(args.getString(0));
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    callbackContext.success("点击了确定");
-                }
-            });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    callbackContext.error("点击了取消");
-                }
-            });
-            builder.create().show();
+            return true;
+        }else if("print".equals(action)){
+            new CommonPrintThread(cordova.getActivity(),"http://dev.static.leanit.com.cn/upload/trace/s/m/1499910556806.jpg").print();
             return true;
         }
         return super.execute(action, args, callbackContext);
     }
-
-
-
 
     private void dispatchMessage(Message msg) {
         switch (msg.arg1) {
