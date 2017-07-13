@@ -54,12 +54,12 @@ public class CommonPrintThread {
     public void print() {
         if (!TracePluginCommon.mIsConnected) {
             String checkStrLink = getBlueToothAdapter();
-            if (null == checkStrLink || "" == checkStrLink) {
+            if (null != checkStrLink && !"".equals( checkStrLink)) {
                 showMessage = checkStrLink;
                 showHandler.sendEmptyMessage(0);
             } else {
                 showMessage = "请先连接蓝牙设备";
-                showHandler.sendEmptyMessage(1);
+                showHandler.sendEmptyMessage(0);
             }
         } else {
             showHandler.sendEmptyMessage(2);
@@ -110,19 +110,6 @@ public class CommonPrintThread {
             switch (msg.what) {
                 case 0:
                     Toast.makeText(context, showMessage, Toast.LENGTH_LONG).show();
-                    break;
-                case 1:
-                    Toast.makeText(context, showMessage, Toast.LENGTH_LONG).show();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(3000l);
-                            } catch (InterruptedException e) {
-                                Log.d("Thread", e.getMessage());
-                            }
-                        }
-                    }).start();
                     break;
                 case 2:
                     Toast.makeText(context, "正在打印..", Toast.LENGTH_LONG).show();

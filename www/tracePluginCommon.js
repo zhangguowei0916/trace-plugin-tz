@@ -43,6 +43,7 @@ TracePluginCommon.prototype.link =
 }
 TracePluginCommon.prototype.print =
  function(content){
+ console.log(content);
     exec(
     function(message){//成功回调function
         console.log(message);
