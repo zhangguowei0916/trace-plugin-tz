@@ -1,7 +1,11 @@
 package com.phonegap.plugins.leanit;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -9,10 +13,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bixolon.printer.BixolonPrinter;
-import com.bumptech.glide.Glide;
 import com.phonegap.plugins.leanit.TracePluginCommon;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Set;
+
 
 /**
  * Created by admin on 2017/3/17.
@@ -42,9 +50,9 @@ public class CommonPrintThread {
         return "";
     }
     public void print() {
-        if (!CommonConstant.IS_LINK) {
+        if (!TracePluginCommon.IS_LINK) {
             String checkStrLink = getBlueToothAdapter();
-            if (null==checkStrLink||''==checkStrLink) {
+            if (null==checkStrLink||""==checkStrLink) {
                 showMessage = checkStrLink;
                 showHandler.sendEmptyMessage(0);
             } else {
@@ -57,17 +65,18 @@ public class CommonPrintThread {
                 public void run() {
                     Bitmap bitmap = null;
                     try {
-                        bitmap = Glide.with(context)
-                                .load(url)
-                                .asBitmap() //必须
-                                .centerCrop()
-                                .into(1000,1000)
-                                .get();
+                        bitmap = getBitMBitmap(url);
+//						Glide.with(context)
+//                                .load(url)
+//                                .asBitmap() //必须
+//                                .centerCrop()
+//                                .into(1000,1000)
+//                                .get();
                         if (null == bitmap) {
                             showHandler.sendEmptyMessage(0);
                         } else {
                             TracePluginCommon.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, 450, 50, false, false, true);
-                            TracePluginCommon.mBixolonPrinter.printText(context.getResources().getString(R.string.company),1,16,16,false);
+                            TracePluginCommon.mBixolonPrinter.printText("中国中铁",1,16,16,false);
                             TracePluginCommon.mBixolonPrinter.formFeed(true);
                         }
                     } catch (Exception e) {
@@ -78,7 +87,21 @@ public class CommonPrintThread {
         }
 
     }
-
+    public static Bitmap getBitMBitmap(String urlpath) {
+        Bitmap map = null;
+        try {
+            URL url = new URL(urlpath);
+            URLConnection conn = url.openConnection();
+            conn.connect();
+            InputStream in;
+            in = conn.getInputStream();
+            map = BitmapFactory.decodeStream(in);
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
     public final Handler showHandler = new Handler(new Handler.Callback() {
 
         @SuppressWarnings("unchecked")
@@ -98,27 +121,11 @@ public class CommonPrintThread {
                             } catch (InterruptedException e) {
                                 Log.d("Thread", e.getMessage());
                             }
-                            AppManager.getAppManager().finishAllActivityExceptMain();
-
                         }
                     }).start();
                     break;
                 case 2:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(cordova.getActivity());
-                    builder.setTitle("提示");
-                    builder.setMessage("正在打印..");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(3000l);
-                            } catch (InterruptedException e) {
-                                Log.d("Thread", e.getMessage());
-                            }
-                            dialog.dismiss();
-
-                        }
-                    }).start();
+                    Toast.makeText(context, "正在打印..", Toast.LENGTH_LONG).show();
             }
             return true;
         }

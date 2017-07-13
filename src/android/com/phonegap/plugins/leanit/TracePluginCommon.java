@@ -8,7 +8,7 @@
  */
 package com.phonegap.plugins.leanit;
 
-import com.phonegap.plugins.leanit;
+import com.phonegap.plugins.leanit.CommonPrintThread;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
@@ -55,6 +55,7 @@ import java.util.Set;
 public class TracePluginCommon extends CordovaPlugin {
     // Name of the connected device
     private String mConnectedDeviceName = null;
+
     public static final String ACTION_COMPLETE_PROCESS_BITMAP = "com.bixolon.anction.COMPLETE_PROCESS_BITMAP";
     public static final String EXTRA_NAME_BITMAP_WIDTH = "BitmapWidth";
     public static final String EXTRA_NAME_BITMAP_HEIGHT = "BitmapHeight";
@@ -70,6 +71,7 @@ public class TracePluginCommon extends CordovaPlugin {
 
     public static boolean mIsConnected;
     public static BixolonPrinter mBixolonPrinter;
+    public static Boolean IS_LINK=true;
 
     @Override
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
