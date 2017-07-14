@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-trace",
   "version": "1.2.0",
-  "description": "You can use the BarcodeScanner plugin to scan different types of barcodes (using the device's camera) and get the metadata encoded in them for processing within your application.",
+  "description": "You can use the cordova-plugin-trace plugin to scan different types of barcodes (using the device's camera) and get the metadata encoded in them for processing within your application.",
   "cordova": {
     "id": "cordova-plugin-trace",
     "platforms": [
@@ -11,7 +11,6 @@
   },
   "keywords": [
     "ecosystem:cordova",
-    "ecosystem:phonegap",
     "cordova-ios",
     "cordova-android"
   ],
