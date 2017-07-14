@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://www.cordova.com/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-plugin-trace"
-    version="1.2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-trace"
+    version="1.2.0" xmlns="http://www.cordova.com/ns/plugins/1.0">
 
     <name>TracePluginCommon</name>
-    <description>You can use the TracePluginCommon plugin to scan different types of barcodes (using the device's camera) and get the metadata encoded in them for processing within your application.</description>
+    <description>You can use the TracePluginCommon plugin to scan different types of barcodes (using
+        the device's camera) and get the metadata encoded in them for processing within your
+        application.
+    </description>
     <license>MIT</license>
 
     <repo>https://github.com/wildabeast/TracePluginCommon</repo>
@@ -14,86 +16,87 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
-    <js-module src="www/tracePluginCommon.js" name="TracePluginCommon">
+    <js-module name="TracePluginCommon" src="www/tracePluginCommon.js">
         <clobbers target="cordova.plugins.tracePluginCommon" />
     </js-module>
 
     <!-- ios -->
     <!--<platform name="ios">-->
-        <!--&lt;!&ndash; Cordova >= 2.8 &ndash;&gt;-->
-        <!--<config-file target="config.xml" parent="/*">-->
-            <!--<feature name="TracePluginCommon">-->
-                <!--<param name="ios-package" value="CDVTracePluginCommon" />-->
-            <!--</feature>-->
-        <!--</config-file>-->
+    <!--&lt;!&ndash; Cordova >= 2.8 &ndash;&gt;-->
+    <!--<config-file target="config.xml" parent="/*">-->
+    <!--<feature name="TracePluginCommon">-->
+    <!--<param name="ios-package" value="CDVTracePluginCommon" />-->
+    <!--</feature>-->
+    <!--</config-file>-->
 
-        <!--<resource-file src="src/ios/scannerOverlay.xib" />-->
-        <!--<resource-file src="src/ios/CDVTracePluginCommon.bundle" />-->
+    <!--<resource-file src="src/ios/scannerOverlay.xib" />-->
+    <!--<resource-file src="src/ios/CDVTracePluginCommon.bundle" />-->
 
-        <!--<header-file src="src/ios/zxing-all-in-one.h" />-->
+    <!--<header-file src="src/ios/zxing-all-in-one.h" />-->
 
-        <!--<source-file src="src/ios/CDVTracePluginCommon.mm" compiler-flags="-fno-objc-arc" />-->
-        <!--<source-file src="src/ios/zxing-all-in-one.cpp" />-->
+    <!--<source-file src="src/ios/CDVTracePluginCommon.mm" compiler-flags="-fno-objc-arc" />-->
+    <!--<source-file src="src/ios/zxing-all-in-one.cpp" />-->
 
-        <!--<framework src="libiconv.dylib" />-->
-        <!--<framework src="AVFoundation.framework" />-->
-        <!--<framework src="AssetsLibrary.framework" />-->
-        <!--<framework src="CoreVideo.framework" />-->
-        <!--<framework src="QuartzCore.framework" />-->
-        <!--<framework src="CoreGraphics.framework" />-->
-        <!--<framework src="CoreImage.framework" />-->
-        <!--<framework src="AudioToolbox.framework" />-->
+    <!--<framework src="libiconv.dylib" />-->
+    <!--<framework src="AVFoundation.framework" />-->
+    <!--<framework src="AssetsLibrary.framework" />-->
+    <!--<framework src="CoreVideo.framework" />-->
+    <!--<framework src="QuartzCore.framework" />-->
+    <!--<framework src="CoreGraphics.framework" />-->
+    <!--<framework src="CoreImage.framework" />-->
+    <!--<framework src="AudioToolbox.framework" />-->
     <!--</platform>-->
 
     <!-- android -->
     <platform name="android">
 
-        <source-file src="src/android/com/cordova/plugins/leanit/TracePluginCommon.java" target-dir="src/com/cordova/plugins/leanit" />
-        <source-file src="src/android/com/cordova/plugins/leanit/CommonPrintThread.java" target-dir="src/com/cordova/plugins/leanit" />
+        <source-file src="src/android/com/cordova/plugins/leanit/TracePluginCommon.java"
+            target-dir="src/com/cordova/plugins/leanit" />
+        <source-file src="src/android/com/cordova/plugins/leanit/CommonPrintThread.java"
+            target-dir="src/com/cordova/plugins/leanit" />
         <!--
         <source-file src="R.java" target-dir="src/com/google/zxing/client/android" />
         -->
 
-        <!--
-        <config-file target="res/xml/plugins.xml" parent="/plugins">
-            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon"/>
-        </config-file>
-        -->
+        <config-file parent="/plugins" target="res/xml/plugins.xml">
+            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />
 
-        <config-file target="res/xml/config.xml" parent="/*">
+        </config-file>
+        <config-file parent="/plugins" target="res/xml/config.xml">
             <feature name="TracePluginCommon">
-                <param name="android-package" value="com.hah.plugins.leanit.TracePluginCommon" />
+                <param name="android-package"
+                    value="com.cordova.plugins.leanit.TracePluginCommon" />
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
             <!--<activity-->
-                <!--android:name="com.google.zxing.client.android.CaptureActivity"-->
-                <!--android:clearTaskOnLaunch="true"-->
-                <!--android:configChanges="orientation|keyboardHidden"-->
-                <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
-                <!--android:windowSoftInputMode="stateAlwaysHidden"-->
-                <!--android:exported="false">-->
-                <!--<intent-filter>-->
-                    <!--<action android:name="com.google.zxing.client.android.SCAN"/>-->
-                    <!--<category android:name="android.intent.category.DEFAULT"/>-->
-                <!--</intent-filter>-->
+            <!--android:name="com.google.zxing.client.android.CaptureActivity"-->
+            <!--android:clearTaskOnLaunch="true"-->
+            <!--android:configChanges="orientation|keyboardHidden"-->
+            <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
+            <!--android:windowSoftInputMode="stateAlwaysHidden"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+            <!--<action android:name="com.google.zxing.client.android.SCAN"/>-->
+            <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--</intent-filter>-->
             <!--</activity>-->
             <!--<activity android:name="com.google.zxing.client.android.encode.EncodeActivity" android:label="@string/share_name">-->
-                <!--<intent-filter>-->
-                    <!--<action android:name="com.cordova.plugins.dialog.ENCODE"/>-->
-                    <!--<category android:name="android.intent.category.DEFAULT"/>-->
-                <!--</intent-filter>-->
+            <!--<intent-filter>-->
+            <!--<action android:name="com.cordova.plugins.dialog.ENCODE"/>-->
+            <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--</intent-filter>-->
             <!--</activity>-->
             <!--<activity android:name="com.google.zxing.client.android.HelpActivity" android:label="@string/share_name">-->
-                <!--<intent-filter>-->
-                    <!--<action android:name="android.intent.action.VIEW"/>-->
-                    <!--<category android:name="android.intent.category.DEFAULT"/>-->
-                <!--</intent-filter>-->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.VIEW"/>-->
+            <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--</intent-filter>-->
             <!--</activity>-->
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
+        <config-file parent="/manifest" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.FLASHLIGHT" />
             <!-- Not required to allow users to work around this -->
@@ -107,12 +110,13 @@
             <uses-permission android:name="android.permission.INTERNET" />
             <!--SD卡读写权限-->
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
         </config-file>
 
         <!--<source-file src="src/android/com.google.zxing.client.android.captureactivity.jar" target-dir="libs"/>-->
 
-        <source-file src="src/android/BixolonPrinterWithDoubleByteFontBinaryV229.jar" target-dir="libs"/>
+        <source-file src="src/android/BixolonPrinterWithDoubleByteFontBinaryV229.jar"
+            target-dir="libs" />
 
         <!--
             LibraryProject/res/*.*
@@ -180,7 +184,7 @@
 
         <!-- plugman cannot merge - prepare manual merge -->
         <!--<config-file target="res/values/strings.xml" parent="/resources">-->
-            <!--<string name="app_picker_name">Applications</string>-->
+        <!--<string name="app_picker_name">Applications</string>-->
         <!--</config-file>-->
     </platform>
 
