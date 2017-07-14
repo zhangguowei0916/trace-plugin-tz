@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+<?xml version="1.0" encoding="UTF-8"?><plugin xmlns="http://www.cordova.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="phonegap-plugin-trace"
+    id="cordova-plugin-trace"
     version="1.1.0">
 
     <name>TracePluginCommon</name>
@@ -48,21 +48,21 @@
     <!-- android -->
     <platform name="android">
 
-        <source-file src="src/android/com/phonegap/plugins/leanit/TracePluginCommon.java" target-dir="src/com/phonegap/plugins/leanit" />
-        <source-file src="src/android/com/phonegap/plugins/leanit/CommonPrintThread.java" target-dir="src/com/phonegap/plugins/leanit" />
+        <source-file src="src/android/com/cordova/plugins/leanit/TracePluginCommon.java" target-dir="src/com/cordova/plugins/leanit" />
+        <source-file src="src/android/com/cordova/plugins/leanit/CommonPrintThread.java" target-dir="src/com/cordova/plugins/leanit" />
         <!--
         <source-file src="R.java" target-dir="src/com/google/zxing/client/android" />
         -->
 
         <!--
         <config-file target="res/xml/plugins.xml" parent="/plugins">
-            <plugin name="TracePluginCommon" value="com.phonegap.plugins.dialog.TracePluginCommon"/>
+            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon"/>
         </config-file>
         -->
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="TracePluginCommon">
-                <param name="android-package" value="com.phonegap.plugins.leanit.TracePluginCommon" />
+                <param name="android-package" value="com.cordova.plugins.leanit.TracePluginCommon" />
             </feature>
         </config-file>
 
@@ -81,7 +81,7 @@
             <!--</activity>-->
             <!--<activity android:name="com.google.zxing.client.android.encode.EncodeActivity" android:label="@string/share_name">-->
                 <!--<intent-filter>-->
-                    <!--<action android:name="com.phonegap.plugins.dialog.ENCODE"/>-->
+                    <!--<action android:name="com.cordova.plugins.dialog.ENCODE"/>-->
                     <!--<category android:name="android.intent.category.DEFAULT"/>-->
                 <!--</intent-filter>-->
             <!--</activity>-->

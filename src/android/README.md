@@ -12,7 +12,7 @@ Steps if you have Netbeans setup for Android or want to do that.
 	4. Download and install NBAndroid: http://www.nbandroid.org/p/installation.html
 	5. Set path of Android SDK in Netbeans (for installation for all users this is: ```c:\Program Files (x86)\Android\android-sdk\```).
 
-2. Install Phonegap:
+2. Install cordova:
 
 	1. Add to Windows PATH Android SDK tools: ```;C:\...[android-sdk]\platform-tools;C:\...[android-sdk]\tools```
 	2. Copy ANT home from Netbeans and add it your PATH too.
@@ -35,9 +35,9 @@ Steps if you have Netbeans setup for Android or want to do that.
 
 5. To open project in Netbeans just use Open Project and in the folder you created the project navigate to platforms\android.
 
-6. Add the plugin following instructions from this page: https://github.com/phonegap/phonegap-plugins/tree/master/Android/BarcodeScanner
+6. Add the plugin following instructions from this page: https://github.com/cordova/cordova-plugins/tree/master/Android/BarcodeScanner
 
-## Preparing for PhoneGap Build ##
+## Preparing for cordova Build ##
 
 The process may vary depending on version of Zxing project, but base steps should be the same.
 
@@ -73,19 +73,19 @@ Workflow for creating and building example project with the plugin:
 	
 	Note. If you wish to remove Android platform (to e.g. generate it with your www assests) you will need to remove "platforms\android" and "merges\android\".
 
-2. Copy plugin files to "hello\plugins\com.phonegap.plugins.barcodescanner\". You can simply download from github:
+2. Copy plugin files to "hello\plugins\com.cordova.plugins.barcodescanner\". You can simply download from github:
 	```
-	git clone https://github.com/wildabeast/BarcodeScanner.git plugins\com.phonegap.plugins.barcodescanner
+	git clone https://github.com/wildabeast/BarcodeScanner.git plugins\com.cordova.plugins.barcodescanner
 	```
 
 3. Install the plugin (current dir. being "hello"):
 	```
-	plugman --plugins_dir plugins --plugin com.phonegap.plugins.barcodescanner --platform android --project platforms\android
-	plugman install --plugins_dir plugins --plugin com.phonegap.plugins.barcodescanner --platform android --project platforms\android
+	plugman --plugins_dir plugins --plugin com.cordova.plugins.barcodescanner --platform android --project platforms\android
+	plugman install --plugins_dir plugins --plugin com.cordova.plugins.barcodescanner --platform android --project platforms\android
 	```
 	
 	Note. To manually remove plugin you need to re-create plugins\android.json (and remove changes done by the plugin - you can simply remove whole platform as described in first step and re-create).
 
 4. Build & deploy Android project with whatever Android IDE (or ANT + ADK tools).
 
-Note. Plugin sub-dir (here "com.phonegap.plugins.barcodescanner") need to be the same as the plugin ID only since PhoneGap 3.0.
+Note. Plugin sub-dir (here "com.cordova.plugins.barcodescanner") need to be the same as the plugin ID only since cordova 3.0.

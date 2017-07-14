@@ -1,28 +1,28 @@
-# PhoneGap Plugin BarcodeScanner
+# cordova Plugin BarcodeScanner
 ================================
 
-[![Build Status](https://travis-ci.org/phonegap/phonegap-plugin-trace.svg)](https://travis-ci.org/phonegap/phonegap-plugin-trace)
+[![Build Status](https://travis-ci.org/cordova/cordova-plugin-trace.svg)](https://travis-ci.org/cordova/cordova-plugin-trace)
 
-**Note: This repository is no longer maintained. The official repository is now at [phonegap/phonegap-plugin-trace](http://github.com/phonegap/phonegap-plugin-trace).**
+**Note: This repository is no longer maintained. The official repository is now at [cordova/cordova-plugin-trace](http://github.com/cordova/cordova-plugin-trace).**
 
-Cross-platform BarcodeScanner for Cordova / PhoneGap.
+Cross-platform BarcodeScanner for Cordova / cordova.
 
 Follows the [Cordova Plugin spec](http://cordova.apache.org/docs/en/5.0.0/plugin_ref_spec.md), so that it works with [Plugman](https://github.com/apache/cordova-plugman).
 
 ## Installation
 
     
-This requires phonegap 5.0+ ( current stable v3.0.0 )
+This requires cordova 5.0+ ( current stable v3.0.0 )
 
-    phonegap plugin add phonegap-plugin-trace
+    cordova plugin add cordova-plugin-trace
 
-Older versions of phonegap can still install via the __deprecated__ id ( stale v2.0.1 )
+Older versions of cordova can still install via the __deprecated__ id ( stale v2.0.1 )
 
-    phonegap plugin add com.phonegap.plugins.leanit
+    cordova plugin add com.cordova.plugins.leanit
 
 It is also possible to install via repo url directly ( unstable )
 
-    phonegap plugin add https://git.oschina.net/leanit/trace-plugin.git
+    cordova plugin add https://git.oschina.net/leanit/trace-plugin.git
     cordova plugin add https://git.oschina.net/leanit/trace-plugin.git
 
 ### Supported Platforms
