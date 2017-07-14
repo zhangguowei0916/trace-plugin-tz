@@ -58,11 +58,13 @@
         <source-file src="R.java" target-dir="src/com/google/zxing/client/android" />
         -->
 
-        <config-file parent="/plugins" target="res/xml/plugins.xml">
-            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />
+        <!--<config-file parent="/plugins" target="res/xml/plugins.xml">-->
 
-        </config-file>
+            <!--<plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />-->
+        <!--</config-file>-->
         <config-file parent="/plugins" target="res/xml/config.xml">
+
+            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />
             <feature name="TracePluginCommon">
                 <param name="android-package"
                     value="com.cordova.plugins.leanit.TracePluginCommon" />
