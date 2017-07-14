@@ -62,7 +62,7 @@
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="TracePluginCommon">
-                <param name="android-package" value="com.cordova.plugins.leanit.TracePluginCommon" />
+                <param name="android-package" value="com.hah.plugins.leanit.TracePluginCommon" />
             </feature>
         </config-file>
 
@@ -179,9 +179,9 @@
         <!--<source-file src="src/android/LibraryProject/res/xml/preferences.xml" target-dir="res/xml"/>-->
 
         <!-- plugman cannot merge - prepare manual merge -->
-        <config-file target="res/values/strings.xml" parent="/resources">
-            <string name="app_picker_name">Applications</string>
-        </config-file>
+        <!--<config-file target="res/values/strings.xml" parent="/resources">-->
+            <!--<string name="app_picker_name">Applications</string>-->
+        <!--</config-file>-->
     </platform>
 
 </plugin>
