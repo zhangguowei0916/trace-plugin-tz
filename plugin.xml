@@ -63,6 +63,7 @@
             <!--<plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />-->
         <!--</config-file>-->
         <config-file parent="/*" target="res/xml/config.xml">
+            <plugin name="TracePluginCommon" value="com.cordova.plugins.dialog.TracePluginCommon" />
             <feature name="TracePluginCommon">
                 <param name="android-package"
                     value="com.cordova.plugins.leanit.TracePluginCommon" />
