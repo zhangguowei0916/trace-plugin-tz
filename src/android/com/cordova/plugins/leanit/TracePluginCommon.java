@@ -1,7 +1,7 @@
 /**
  * cordova is available under *either* the terms of the modified BSD license *or* the
  * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
- *
+ * <p>
  * Copyright (c) Matt Kane 2010
  * Copyright (c) 2011, IBM Corporation
  * Copyright (c) 2013, Maciej Nux Jaros
@@ -9,13 +9,16 @@
 package com.cordova.plugins.leanit;
 
 import com.cordova.plugins.leanit.CommonPrintThread;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaPlugin;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 
 import android.annotation.SuppressLint;
@@ -31,6 +34,7 @@ import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +60,7 @@ public class TracePluginCommon extends CordovaPlugin {
     // Name of the connected device
     private String mConnectedDeviceName = null;
 
+    public static final int REQUEST_CODE = 0x0ba7c0de;
     public static final String ACTION_COMPLETE_PROCESS_BITMAP = "com.bixolon.anction.COMPLETE_PROCESS_BITMAP";
     public static final String EXTRA_NAME_BITMAP_WIDTH = "BitmapWidth";
     public static final String EXTRA_NAME_BITMAP_HEIGHT = "BitmapHeight";
@@ -66,10 +71,11 @@ public class TracePluginCommon extends CordovaPlugin {
     public static final String EXTRA_NAME_NV_KEY_CODES = "NvKeyCodes";
     public static final String EXTRA_NAME_MSR_TRACK_DATA = "MsrTrackData";
 
+    private static final String SCAN_INTENT = "com.cordova.plugins.leanit.qrcode.CaptureActivity";
     public static final int MESSAGE_START_WORK = Integer.MAX_VALUE - 2;
     public static final int MESSAGE_END_WORK = Integer.MAX_VALUE - 3;
 
-    public static boolean mIsConnected=false;
+    public static boolean mIsConnected = false;
     public static BixolonPrinter mBixolonPrinter;
 
     @Override
@@ -77,14 +83,66 @@ public class TracePluginCommon extends CordovaPlugin {
         if (null == mBixolonPrinter) {
             mBixolonPrinter = new BixolonPrinter(cordova.getActivity(), mHandler, null);
         }
-        if("link".equals(action)){
+        if ("link".equals(action)) {
             mBixolonPrinter.findBluetoothPrinters();
             return true;
-        }else if("print".equals(action)){
-            new CommonPrintThread(cordova.getActivity(),args.getString(0)).print();
+        } else if ("print".equals(action)) {
+            new CommonPrintThread(cordova.getActivity(), args.getString(0)).print();
             return true;
+        }else if ("scan".equals(action)) {
+            scan(args);
         }
         return super.execute(action, args, callbackContext);
+    }
+
+
+    /**
+     * Starts an intent to scan and decode a barcode.
+     */
+    public void scan(JSONArray args) {
+        Intent intentScan = new Intent(SCAN_INTENT);
+        intentScan.addCategory(Intent.CATEGORY_DEFAULT);
+
+        // add config as intent extras
+        if (args.length() > 0) {
+
+            JSONObject obj;
+            JSONArray names;
+            String key;
+            Object value;
+
+            for (int i = 0; i < args.length(); i++) {
+
+                try {
+                    obj = args.getJSONObject(i);
+                } catch (JSONException e) {
+                    Log.i("CordovaLog", e.getLocalizedMessage());
+                    continue;
+                }
+
+                names = obj.names();
+                for (int j = 0; j < names.length(); j++) {
+                    try {
+                        key = names.getString(j);
+                        value = obj.get(key);
+
+                        if (value instanceof Integer) {
+                            intentScan.putExtra(key, (Integer) value);
+                        } else if (value instanceof String) {
+                            intentScan.putExtra(key, (String) value);
+                        }
+
+                    } catch (JSONException e) {
+                        Log.i("CordovaLog", e.getLocalizedMessage());
+                        continue;
+                    }
+                }
+            }
+
+        }
+        // avoid calling other phonegap apps
+        intentScan.setPackage(this.cordova.getActivity().getApplicationContext().getPackageName());
+        this.cordova.startActivityForResult((CordovaPlugin) this, intentScan, REQUEST_CODE);
     }
 
     private void dispatchMessage(Message msg) {
@@ -201,7 +259,7 @@ public class TracePluginCommon extends CordovaPlugin {
 
                         case BixolonPrinter.STATE_NONE:
                             mIsConnected = false;
-                           Toast.makeText(cordova.getActivity(), "连接失败....", Toast.LENGTH_SHORT).show();
+//                           Toast.makeText(cordova.getActivity(), "连接失败....", Toast.LENGTH_SHORT).show();
                             break;
                     }
                     return true;
@@ -250,7 +308,7 @@ public class TracePluginCommon extends CordovaPlugin {
                         Toast.makeText(cordova.getActivity(), "没有配对的蓝牙打印机", Toast.LENGTH_SHORT).show();
                     } else {
 //                        DialogManager.showBluetoothDialog(MainActivity.this, (Set<BluetoothDevice>) msg.obj);
-                        Set<BluetoothDevice> pairedDevices=(Set<BluetoothDevice>) msg.obj;
+                        Set<BluetoothDevice> pairedDevices = (Set<BluetoothDevice>) msg.obj;
                         final String[] items = new String[pairedDevices.size()];
                         int index = 0;
                         for (BluetoothDevice device : pairedDevices) {
@@ -307,6 +365,8 @@ public class TracePluginCommon extends CordovaPlugin {
                 case MESSAGE_END_WORK:
                     Toast.makeText(cordova.getActivity(), "2", Toast.LENGTH_SHORT).show();
                     return true;
+
+
                 case BixolonPrinter.MESSAGE_NETWORK_DEVICE_SET:
                     if (msg.obj == null) {
                         Toast.makeText(cordova.getActivity(), "No connectable device", Toast.LENGTH_SHORT).show();
@@ -322,7 +382,7 @@ public class TracePluginCommon extends CordovaPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mIsConnected=false;
+        mIsConnected = false;
         mBixolonPrinter.disconnect();
     }
 

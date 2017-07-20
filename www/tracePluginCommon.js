@@ -41,6 +41,21 @@ TracePluginCommon.prototype.link =
     [content]//要传递的参数，json格式
     );
 }
+
+ TracePluginCommon.prototype.scan =
+  function(content){
+     exec(
+     function(message){//成功回调function
+         console.log(message);
+     },
+     function(message){//失败回调function
+         console.log(message);
+     },
+     "TracePluginCommon",//feature name
+     "scan",//action
+     [content]//要传递的参数，json格式
+     );
+ }
 TracePluginCommon.prototype.print =
  function(content){
  console.log(content);
