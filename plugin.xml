@@ -55,10 +55,46 @@
         <source-file src="src/android/com/cordova/plugins/leanit/CommonPrintThread.java"
             target-dir="src/com/cordova/plugins/leanit" />
 
-        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/*"
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/CaptureActivity"
             target-dir="src/com/cordova/plugins/leanit/qrcode" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/view/ViewfinderResultPointCallback"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/view" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/ViewfinderView"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/view" />
 
-        <source-file src="R.java" target-dir="src/android/com/cordova/plugins/leanit" />
+
+
+
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/CaptureActivityHandler"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/DecodeFormatManager"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/DecodeHandler"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/DecodeThread"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/FinishListener"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/InactivityTimer"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/Intents"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/RGBLuminanceSource"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/decoding/Utils"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/decoding" />
+
+
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/AutoFocusCallback"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/CameraConfigurationManager"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/CameraManager"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/PlanarYUVLuminanceSource"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/PreviewCallback"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
 
         <!--<config-file parent="/plugins" target="res/xml/plugins.xml">-->
 
