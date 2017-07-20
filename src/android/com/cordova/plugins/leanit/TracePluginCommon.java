@@ -201,7 +201,7 @@ public class TracePluginCommon extends CordovaPlugin {
 
                         case BixolonPrinter.STATE_NONE:
                             mIsConnected = false;
-//                           Toast.makeText(cordova.getActivity(), "连接失败....", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(cordova.getActivity(), "连接失败....", Toast.LENGTH_SHORT).show();
                             break;
                     }
                     return true;
@@ -307,8 +307,6 @@ public class TracePluginCommon extends CordovaPlugin {
                 case MESSAGE_END_WORK:
                     Toast.makeText(cordova.getActivity(), "2", Toast.LENGTH_SHORT).show();
                     return true;
-
-
                 case BixolonPrinter.MESSAGE_NETWORK_DEVICE_SET:
                     if (msg.obj == null) {
                         Toast.makeText(cordova.getActivity(), "No connectable device", Toast.LENGTH_SHORT).show();
