@@ -59,7 +59,7 @@
             target-dir="src/com/cordova/plugins/leanit/qrcode" />
         <source-file src="src/android/com/cordova/plugins/leanit/qrcode/view/ViewfinderResultPointCallback.java"
             target-dir="src/com/cordova/plugins/leanit/qrcode/view" />
-        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/ViewfinderView.java"
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/view/ViewfinderView.java"
             target-dir="src/com/cordova/plugins/leanit/qrcode/view" />
 
 
