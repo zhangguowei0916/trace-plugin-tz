@@ -43,14 +43,19 @@ TracePluginCommon.prototype.link =
 }
 
  TracePluginCommon.prototype.scan =
-  function(content){
-     exec(
-     function(message){//成功回调function
-         console.log(message);
-     },
-     function(message){//失败回调function
-         console.log(message);
-     },
+  function(successCallback, errorCallback, content){
+
+    if (typeof errorCallback != "function") {
+        console.log("BarcodeScanner.scan failure: failure parameter not a function");
+        return;
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("BarcodeScanner.scan failure: success callback parameter must be a function");
+        return;
+    }
+
+     exec(successCallback,errorCallback,
      "TracePluginCommon",//feature name
      "scan",//action
      [content]//要传递的参数，json格式

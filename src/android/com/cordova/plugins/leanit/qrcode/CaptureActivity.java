@@ -30,6 +30,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import com.cordova.plugins.leanit.qrcode.camera.CameraManager;
 import com.cordova.plugins.leanit.qrcode.decoding.CaptureActivityHandler;
 import com.cordova.plugins.leanit.qrcode.decoding.InactivityTimer;
@@ -98,14 +99,6 @@ public class CaptureActivity extends Activity implements Callback {
                         finish();
                     }
                 });
-        findViewById(R.id.mo_scanner_photo).setOnClickListener(
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        photo();
-                    }
-                });
 
         findViewById(R.id.mo_scanner_light).setOnClickListener(
                 new OnClickListener() {
@@ -136,153 +129,6 @@ public class CaptureActivity extends Activity implements Callback {
 
     }
 
-    private void photo() {
-
-        Intent innerIntent = new Intent(); // "android.intent.action.GET_CONTENT"
-        if (Build.VERSION.SDK_INT < 19) {
-            innerIntent.setAction(Intent.ACTION_GET_CONTENT);
-        } else {
-            innerIntent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        }
-        innerIntent.setType("image/*");
-
-        Intent wrapperIntent = Intent.createChooser(innerIntent, "选择二维码图片");
-
-        CaptureActivity.this
-                .startActivityForResult(wrapperIntent, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-
-            switch (requestCode) {
-
-                case REQUEST_CODE:
-
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    // 获取选中图片的路径
-                    Cursor cursor = getContentResolver().query(data.getData(),
-                            proj, null, null, null);
-
-                    if (cursor.moveToFirst()) {
-
-                        int column_index = cursor
-                                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        photo_path = cursor.getString(column_index);
-                        if (photo_path == null) {
-                            photo_path = Utils.getPath(getApplicationContext(),
-                                    data.getData());
-                            Log.i("123path  Utils", photo_path);
-                        }
-                        Log.i("123path", photo_path);
-
-                    }
-
-                    cursor.close();
-
-                    new Thread(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            Result result = scanningImage(photo_path);
-                            // String result = decode(photo_path);
-                            if (result == null) {
-                                Looper.prepare();
-//                                Toast.makeText(getApplicationContext(), "图片格式有误", 0)
-//                                        .show();
-                                Looper.loop();
-                            } else {
-                                // Log.i("123result", result.getText());
-                                // 数据返回
-                                String recode = recode(result.toString());
-                                Intent data = new Intent();
-                                data.putExtra("result", recode);
-                                setResult(300, data);
-                                finish();
-                            }
-                        }
-                    }).start();
-                    break;
-
-            }
-
-        }
-
-    }
-
-    // TODO: 解析部分图片
-    protected Result scanningImage(String path) {
-        if (TextUtils.isEmpty(path)) {
-
-            return null;
-
-        }
-        // DecodeHintType 和EncodeHintType
-        Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
-        hints.put(DecodeHintType.CHARACTER_SET, "utf-8"); // 设置二维码内容的编码
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true; // 先获取原大小
-        scanBitmap = BitmapFactory.decodeFile(path, options);
-        options.inJustDecodeBounds = false; // 获取新的大小
-
-        int sampleSize = (int) (options.outHeight / (float) 200);
-
-        if (sampleSize <= 0)
-            sampleSize = 1;
-        options.inSampleSize = sampleSize;
-        scanBitmap = BitmapFactory.decodeFile(path, options);
-
-        // --------------测试的解析方法---PlanarYUVLuminanceSource-这几行代码对project没作功----------
-
-        LuminanceSource source1 = new PlanarYUVLuminanceSource(
-                rgb2YUV(scanBitmap), scanBitmap.getWidth(),
-                scanBitmap.getHeight(), 0, 0, scanBitmap.getWidth(),
-                scanBitmap.getHeight(), false);
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(
-                source1));
-        MultiFormatReader reader1 = new MultiFormatReader();
-        Result result1;
-        try {
-            result1 = reader1.decode(binaryBitmap);
-            String content = result1.getText();
-            Log.i("123content", content);
-        } catch (NotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        // ----------------------------
-
-        RGBLuminanceSource source = new RGBLuminanceSource(scanBitmap);
-        BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
-        QRCodeReader reader = new QRCodeReader();
-        try {
-
-            return reader.decode(bitmap1, hints);
-
-        } catch (NotFoundException e) {
-
-            e.printStackTrace();
-
-        } catch (ChecksumException e) {
-
-            e.printStackTrace();
-
-        } catch (FormatException e) {
-
-            e.printStackTrace();
-
-        }
-
-        return null;
-
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -302,7 +148,7 @@ public class CaptureActivity extends Activity implements Callback {
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
-		//自定义插件 注释掉声音
+        //自定义插件 注释掉声音
 //        initBeepSound();
         vibrate = true;
     }
@@ -332,7 +178,7 @@ public class CaptureActivity extends Activity implements Callback {
             return;
         }
         if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,characterSet);
+            handler = new CaptureActivityHandler(this, decodeFormats, characterSet);
         }
     }
 
@@ -372,29 +218,15 @@ public class CaptureActivity extends Activity implements Callback {
 
     public void handleDecode(final Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
-        playBeepSoundAndVibrate();
+//		playBeepSoundAndVibrate();
         String url = recode(result.toString());
-//        final Context context = this.getApplicationContext();
-//        playBeepSoundAndVibrate();
-//        if (url.equals("")) {
-//            Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Intent intent = new Intent(CaptureActivity.this, CommonWebViewActivity.class);
-//            Bundle bundle = new Bundle();
-//            try {
-//                //动态取得title
-//                String[] titleTemp = url.split("title=");
-//                if (titleTemp.length > 1) {
-//                    bundle.putString("title", URLDecoder.decode(titleTemp[1].split("&")[0], "UTF-8"));
-//                }
-//            } catch (Exception e) {}
-//            bundle.putString("url", url+"&userId="+ AndroidUtil.getLoginUserId(CaptureActivity.this));
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//        }
-        finish();
+        //通过setResult绑定返回值
+        Intent intent = new Intent();
+        intent.putExtra("scanUrl", url);
+        setResult(RESULT_OK, intent);
+        //关闭该activity，把返回值传回到cordovaPlugin插件
+        this.finish();
     }
-
 
 //    private void initBeepSound() {
 //        if (playBeep && mediaPlayer == null) {

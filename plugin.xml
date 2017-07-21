@@ -95,6 +95,8 @@
             target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
         <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/PreviewCallback.java"
             target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
+        <source-file src="src/android/com/cordova/plugins/leanit/qrcode/camera/FlashlightManager.java"
+            target-dir="src/com/cordova/plugins/leanit/qrcode/camera" />
 
         <!--<config-file parent="/plugins" target="res/xml/plugins.xml">-->
 
@@ -109,14 +111,12 @@
         </config-file>
 
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
-            <activity android:name="com.cordova.plugins.leanit.qrcode.CaptureActivity"
-                android:clearTaskOnLaunch="true" android:configChanges="orientation|keyboardHidden"
-                android:exported="false" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                android:windowSoftInputMode="stateAlwaysHidden">
-                <intent-filter>
-                    <category android:name="android.intent.category.DEFAULT" />
-                </intent-filter>
-            </activity>
+            <activity
+                android:name="com.cordova.plugins.leanit.qrcode.CaptureActivity"
+                android:configChanges="orientation|keyboardHidden"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                android:windowSoftInputMode="stateAlwaysHidden"></activity>
         </config-file>
 
         <config-file parent="/manifest" target="AndroidManifest.xml">
