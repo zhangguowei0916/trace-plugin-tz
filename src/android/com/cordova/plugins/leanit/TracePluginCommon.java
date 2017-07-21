@@ -73,7 +73,7 @@ public class TracePluginCommon extends CordovaPlugin {
         }else if ("scan".equals(action)) {
             scan();
         }
-        return super.execute(action, args, callbackContext);
+        return true;
     }
 
 
@@ -81,9 +81,9 @@ public class TracePluginCommon extends CordovaPlugin {
      * Starts an intent to scan and decode a barcode.
      */
     public void scan() {
+
         Intent intent=new Intent(this.cordova.getActivity(),CaptureActivity.class);
         this.cordova.startActivityForResult((CordovaPlugin) this, intent, REQUEST_CODE);
-        System.out.print("sss");
     }
 
 
@@ -98,7 +98,7 @@ public class TracePluginCommon extends CordovaPlugin {
                     Log.d("trace scan plugin", "This should never happen");
                 }
                 //this.success(new PluginResult(PluginResult.Status.OK, obj), this.callback);
-                this.callbackContext.success(obj);
+                callbackContext.success(obj);
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 JSONObject obj = new JSONObject();
                 try {
@@ -107,10 +107,10 @@ public class TracePluginCommon extends CordovaPlugin {
                     Log.d("trace scan plugin", "This should never happen");
                 }
                 //this.success(new PluginResult(PluginResult.Status.OK, obj), this.callback);
-                this.callbackContext.success(obj);
+                callbackContext.success(obj);
             } else {
                 //this.error(new PluginResult(PluginResult.Status.ERROR), this.callback);
-                this.callbackContext.error("Unexpected error");
+                callbackContext.error("Unexpected error");
             }
         }
     }
