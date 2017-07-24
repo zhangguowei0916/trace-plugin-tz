@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-trace.TracePluginCommon", function(require, exports, module) {
 /**
  * cordova is available under *either* the terms of the modified BSD license *or* the
  * MIT License (2008). See http://opensource.org/licenses/alphabetical for full text.
@@ -78,5 +79,24 @@ TracePluginCommon.prototype.print =
 }
 
 
+TracePluginCommon.prototype.update =
+ function(content){
+ console.log(content);
+    exec(
+    function(message){//成功回调function
+        console.log(message);
+    },
+    function(message){//失败回调function
+        console.log(message);
+    },
+    "TracePluginCommon",//feature name
+    "update",//action
+    [content]//要传递的参数，json格式
+    );
+}
+
+
 var tracePluginCommon = new TracePluginCommon();
 module.exports = tracePluginCommon;
+
+});

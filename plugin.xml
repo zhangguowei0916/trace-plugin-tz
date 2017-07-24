@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-trace"
-    version="1.2.0" xmlns="http://www.cordova.com/ns/plugins/1.0">
+    version="1.3.0" xmlns="http://www.cordova.com/ns/plugins/1.0">
 
     <name>TracePluginCommon</name>
     <description>You can use the TracePluginCommon plugin to scan different types of barcodes (using
