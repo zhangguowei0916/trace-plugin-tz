@@ -104,7 +104,7 @@ public class TracePluginCommon extends CordovaPlugin {
 		AlertDialog.Builder builder = new AlertDialog.Builder(cordova.getActivity());
 		builder.setIcon(android.R.drawable.ic_dialog_info);
 		builder.setTitle("请升级APP版本至" + versionName);
-		builder.setMessage(descr.eplaceAll("#","\n"));
+		builder.setMessage(desc.replaceAll("#","\n"));
 		builder.setCancelable(false);
 		builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 			@Override
