@@ -180,7 +180,7 @@
         <source-file src="src/android/res/values/colors.xml" target-dir="res/values" />
         <source-file src="src/android/res/values/dimens.xml" target-dir="res/values" />
         <source-file src="src/android/res/values/ids.xml" target-dir="res/values" />
-        <source-file src="src/android/res/values/strings.xml" target-dir="res/values"/>
+        <!--<source-file src="src/android/res/values/strings.xml" target-dir="res/values"/>-->
         <!--<source-file src="src/android/LibraryProject/res/values-bg/strings.xml" target-dir="res/values-bg"/>-->
         <!--<source-file src="src/android/LibraryProject/res/values-ca/strings.xml" target-dir="res/values-ca"/>-->
         <!--<source-file src="src/android/LibraryProject/res/values-cs/strings.xml" target-dir="res/values-cs"/>-->
