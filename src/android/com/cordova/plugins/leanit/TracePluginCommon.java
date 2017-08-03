@@ -153,11 +153,19 @@ public class TracePluginCommon extends CordovaPlugin {
 					if (con.getResponseCode() == 200) {
 						int length = con.getContentLength();// 获取文件大小
 						InputStream is = con.getInputStream();
-						pBar.setMax(length); // 设置进度条的总长度
+						pBar.setMax(Math.round(length/1024/1024)); // 设置进度条的总长度
 						FileOutputStream fileOutputStream = null;
 						if (is != null) {
 							//对apk进行保存
-							File file = new File(Environment.getExternalStoragePublicDirectory("Download"), "android-trace.apk");
+							chmod(cordova.getActivity().getFilesDir().getAbsolutePath());
+							File file ;
+							//如果相等的话表示当前的sdcard挂载在手机上并且是可用的
+							if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+								file=new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "android-trace.apk");
+							} else {
+								file=new File(cordova.getActivity().getFilesDir().getAbsolutePath(), "android-trace.apk");
+							}
+
 							fileOutputStream = new FileOutputStream(file);
 							byte[] buf = new byte[1024];
 							int ch;
@@ -165,7 +173,7 @@ public class TracePluginCommon extends CordovaPlugin {
 							while ((ch = is.read(buf)) != -1) {
 								fileOutputStream.write(buf, 0, ch);
 								process += ch;
-								pBar.setProgress(process); // 实时更新进度了
+								pBar.setProgress(Math.round(process/1024/1024)); // 实时更新进度了
 							}
 						}
 						if (fileOutputStream != null) {
@@ -216,7 +224,6 @@ public class TracePluginCommon extends CordovaPlugin {
 				try {
 					obj.put("scanUrl", "");
 				} catch (JSONException e) {
-					;
 					Log.d("trace scan plugin", "This should never happen");
 				}
 				//this.success(new PluginResult(PluginResult.Status.OK, obj), this.callback);
@@ -248,7 +255,14 @@ public class TracePluginCommon extends CordovaPlugin {
 				break;
 		}
 	}
-
+	public static void chmod(String pathc) {
+		String chmodCmd = "chmod -R 777 " + pathc;
+		try {
+			Runtime.getRuntime().exec(chmodCmd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private final Handler mHandler = new Handler(new Handler.Callback() {
 
 		@SuppressWarnings("unchecked")
@@ -261,7 +275,16 @@ public class TracePluginCommon extends CordovaPlugin {
 					pBar.cancel();
 					//安装apk，也可以进行静默安装
 					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory("Download"), "android-trace.apk")),
+					//对apk进行保存
+					File file ;
+					//如果相等的话表示当前的sdcard挂载在手机上并且是可用的
+					if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+						file=new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "android-trace.apk");
+					} else {
+						file=new File(cordova.getActivity().getFilesDir().getAbsolutePath(), "android-trace.apk");
+					}
+					chmod(cordova.getActivity().getFilesDir().getAbsolutePath());
+					intent.setDataAndType(Uri.fromFile(file),
 							"application/vnd.android.package-archive");
 					cordova.getActivity().startActivity(intent);
 					android.os.Process.killProcess(android.os.Process.myPid());
