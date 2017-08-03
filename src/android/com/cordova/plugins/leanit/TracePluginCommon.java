@@ -154,6 +154,7 @@ public class TracePluginCommon extends CordovaPlugin {
 						int length = con.getContentLength();// 获取文件大小
 						InputStream is = con.getInputStream();
 						pBar.setMax(Math.round(length/1024/1024)); // 设置进度条的总长度
+						pBar.setProgressNumberFormat("%1d M/%2d M");
 						FileOutputStream fileOutputStream = null;
 						if (is != null) {
 							//对apk进行保存
