@@ -157,7 +157,7 @@ public class TracePluginCommon extends CordovaPlugin {
 						FileOutputStream fileOutputStream = null;
 						if (is != null) {
 							//对apk进行保存
-							File file = new File(cordova.getActivity().getApplicationContext().getFilesDir().getAbsolutePath(), "android-trace.apk");
+							File file = new File(Environment.getExternalStoragePublicDirectory("Download"), "android-trace.apk");
 							fileOutputStream = new FileOutputStream(file);
 							byte[] buf = new byte[1024];
 							int ch;
@@ -261,7 +261,7 @@ public class TracePluginCommon extends CordovaPlugin {
 					pBar.cancel();
 					//安装apk，也可以进行静默安装
 					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setDataAndType(Uri.fromFile(new File(cordova.getActivity().getApplicationContext().getFilesDir().getAbsolutePath(), "android-trace.apk")),
+					intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory("Download"), "android-trace.apk")),
 							"application/vnd.android.package-archive");
 					cordova.getActivity().startActivity(intent);
 					android.os.Process.killProcess(android.os.Process.myPid());
