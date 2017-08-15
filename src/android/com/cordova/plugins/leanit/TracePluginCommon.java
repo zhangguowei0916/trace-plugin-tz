@@ -13,6 +13,7 @@ import com.cordova.plugins.leanit.CommonPrintThread;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import org.apache.cordova.CallbackContext;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -41,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Set;
 
 
@@ -72,6 +75,10 @@ public class TracePluginCommon extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
 		this.callbackContext = callbackContext;
+		//在这里为应用设置异常处理程序，然后我们的程序才能捕获未处理的异常
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(cordova.getActivity());
+
 		if (null == mBixolonPrinter) {
 			mBixolonPrinter = new BixolonPrinter(cordova.getActivity(), mHandler, null);
 		}
@@ -85,14 +92,28 @@ public class TracePluginCommon extends CordovaPlugin {
 		} else if ("scan".equals(action)) {//扫描二维码
 			scan();
 		} else if ("update".equals(action)) {//版本更新
-
 			JSONObject myJsonObject = new JSONObject(args.getString(0));
 			//获取对应的值
 			update(myJsonObject.getString("versionCode"),myJsonObject.getString("description"),myJsonObject.getString("url"));
+		}else if("setting".equals(action)){
+			//获取对应的值
+			setParamAndroid(new JSONObject(args.getString(0)));
 		}
 		return true;
 	}
-
+	/**
+	 * 设置
+	 */
+	public void setParamAndroid(JSONObject jsonObject) {
+		SharedPreferences sharedPreferences = cordova.getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+		try {
+			editor.putString("crashUrl", jsonObject.getString("crashUrl"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		editor.commit();//提交修改
+	}
 	/**
 	 * 显示升级信息的对话框
 	 *

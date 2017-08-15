@@ -95,5 +95,22 @@ TracePluginCommon.prototype.update =
 }
 
 
+TracePluginCommon.prototype.setting =
+ function(content){
+ console.log(content);
+    exec(
+    function(message){//成功回调function
+        console.log(message);
+    },
+    function(message){//失败回调function
+        console.log(message);
+    },
+    "TracePluginCommon",//feature name
+    "setting",//action
+    [content]//要传递的参数，json格式
+    );
+}
+
+
 var tracePluginCommon = new TracePluginCommon();
 module.exports = tracePluginCommon;
