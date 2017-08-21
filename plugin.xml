@@ -51,6 +51,8 @@
     <platform name="android">
         <source-file src="src/android/com/cordova/plugins/leanit/TracePluginCommon.java"
             target-dir="src/com/cordova/plugins/leanit" />
+        <source-file src="src/android/com/cordova/plugins/leanit/CrashHandler.java"
+            target-dir="src/com/cordova/plugins/leanit" />
         <source-file src="src/android/com/cordova/plugins/leanit/CommonPrintThread.java"
             target-dir="src/com/cordova/plugins/leanit" />
         <source-file src="src/android/com/cordova/plugins/leanit/qrcode/CaptureActivity.java"
