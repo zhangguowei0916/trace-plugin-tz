@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.bixolon.printer.BixolonPrinter;
 import com.cordova.plugins.leanit.TracePluginCommon;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -29,10 +32,17 @@ public class CommonPrintThread {
     private Context context;
     private String url;
     private String showMessage;
+    private String desc;
 
-    public CommonPrintThread(Context context, String url) {
+    public CommonPrintThread(Context context, String args) {
         this.context = context;
-        this.url = url;
+        try {
+            JSONObject myJsonObject = new JSONObject(args);
+            this.url = myJsonObject.getString("url");
+            this.desc = myJsonObject.getString("desc");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getBlueToothAdapter() throws IllegalArgumentException {
@@ -74,7 +84,7 @@ public class CommonPrintThread {
                             showHandler.sendEmptyMessage(0);
                         } else {
                             TracePluginCommon.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, 450, 50, false, false, true);
-                            TracePluginCommon.mBixolonPrinter.printText("中国中铁一局", 1, 16, 16, false);
+                            TracePluginCommon.mBixolonPrinter.printText(desc, 1, 16, 16, false);
                             TracePluginCommon.mBixolonPrinter.formFeed(true);
                         }
                     } catch (Exception e) {
@@ -118,4 +128,20 @@ public class CommonPrintThread {
         }
 
     });
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
