@@ -38,7 +38,7 @@ public class CommonPrintThread {
         this.context = context;
         try {
             JSONObject myJsonObject = new JSONObject(args);
-            this.url = myJsonObject.getString("url");
+            this.url = myJsonObject.getString("url").replace("\\","/");
             this.desc = myJsonObject.getString("desc");
         } catch (JSONException e) {
             e.printStackTrace();
