@@ -76,6 +76,21 @@ TracePluginCommon.prototype.print =
     [content]//要传递的参数，json格式
     );
 }
+TracePluginCommon.prototype.templatePrint =
+ function(content){
+ console.log(content);
+    exec(
+    function(message){//成功回调function
+        console.log(message);
+    },
+    function(message){//失败回调function
+        console.log(message);
+    },
+    "TracePluginCommon",//feature name
+    "templatePrint",//action
+    [content]//要传递的参数，json格式
+    );
+}
 
 
 TracePluginCommon.prototype.update =

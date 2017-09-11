@@ -1,15 +1,12 @@
 package com.cordova.plugins.leanit;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.bixolon.printer.BixolonPrinter;
@@ -33,13 +30,17 @@ public class CommonPrintThread {
     private String url;
     private String showMessage;
     private String desc;
+    private final float width = 970;
+    private final float height = 700;
 
     public CommonPrintThread(Context context, String args) {
         this.context = context;
         try {
-            JSONObject myJsonObject = new JSONObject(args);
-            this.url = myJsonObject.getString("url").replace("\\","/");
-            this.desc = myJsonObject.getString("desc");
+            if (null != args && args.length > 0) {
+                JSONObject myJsonObject = new JSONObject(args);
+                this.url = myJsonObject.getString("url").replace("\\", "/");
+                this.desc = myJsonObject.getString("desc");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -64,7 +65,7 @@ public class CommonPrintThread {
     public void print() {
         if (!TracePluginCommon.mIsConnected) {
             String checkStrLink = getBlueToothAdapter();
-            if (null != checkStrLink && !"".equals( checkStrLink)) {
+            if (null != checkStrLink && !"".equals(checkStrLink)) {
                 showMessage = checkStrLink;
                 showHandler.sendEmptyMessage(0);
             } else {
@@ -96,6 +97,69 @@ public class CommonPrintThread {
 
     }
 
+    public void print(Bitmap bitmap) {
+        if (!TracePluginCommon.mIsConnected) {
+            String checkStrLink = getBlueToothAdapter();
+            if (null != checkStrLink && !"".equals(checkStrLink)) {
+                showMessage = checkStrLink;
+                showHandler.sendEmptyMessage(0);
+            } else {
+                showMessage = "请先连接蓝牙设备";
+                showHandler.sendEmptyMessage(0);
+            }
+        } else {
+            showHandler.sendEmptyMessage(2);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (null == bitmap) {
+                            showMessage = "二维码不存在";
+                            showHandler.sendEmptyMessage(0);
+                        } else {
+                            int width = bitMap.getWidth();
+                            int height = bitMap.getHeight();
+                            // 设置想要的大小
+                            float newWidth = (willWidth / width > willHeight / height) ? willWidth : (willWidth * height / willHeight);
+                            float newHeight = (willWidth / width > willHeight / height) ?:
+                            (willHeight * width / willWidth):willHeight;
+                            // 计算缩放比例
+                            float scaleWidth = ((float) newWidth) / width;
+                            float scaleHeight = ((float) newHeight) / height;
+                            // 取得想要缩放的matrix参数
+                            Matrix matrix = new Matrix();
+                            matrix.postScale(scaleWidth, scaleHeight);
+                            // 得到新的图片
+                            bitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix,
+                                    true);
+                            TracePluginCommon.mBixolonPrinter.printBitmap(bitmap, BixolonPrinter.ALIGNMENT_CENTER, scaleWidth, 50, false, false, true);
+                            TracePluginCommon.mBixolonPrinter.formFeed(true);
+                        }
+                    } catch (Exception e) {
+                        showHandler.sendEmptyMessage(0);
+                    }
+                }
+            }).start();
+        }
+
+    }
+    public static Bitmap compressBitMap(Bitmap bitmap,float willWidth,float willHeight){
+        int width = bitMap.getWidth();
+        int height = bitMap.getHeight();
+        // 设置想要的大小
+        float newWidth = (willWidth / width > willHeight / height) ? willWidth : (willWidth * height / willHeight);
+        float newHeight = (willWidth / width > willHeight / height) ?(willHeight * width / willWidth):willHeight;
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        Bitmap targetBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix,
+                true);
+        return targetBitMap;
+    }
     public static Bitmap getBitMBitmap(String urlpath) {
         Bitmap map = null;
         try {
