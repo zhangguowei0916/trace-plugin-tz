@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
+import android.graphics.Matrix;
 
 import com.bixolon.printer.BixolonPrinter;
 import com.cordova.plugins.leanit.TracePluginCommon;

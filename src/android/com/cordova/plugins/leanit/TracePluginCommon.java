@@ -22,6 +22,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import com.bixolon.printer.BixolonPrinter;
 import com.cordova.plugins.leanit.CommonPrintThread;
@@ -39,7 +43,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Set;
-
+import android.graphics.Color;
 
 /**
  * Created by admin on 2017/7/11.
@@ -128,13 +132,10 @@ public class TracePluginCommon extends CordovaPlugin {
                 int y = object.getInteger("y");
                 int width = object.getInteger("width");
                 int height = object.getInteger("height");
-                String color = object.getString("color").toUpperCase();
-                if (color.startsWith("0X")) {
-                    color = color.substring(2);
-                }
+                String color = object.getString("color");
                 String type = object.getString("type");
                 String value = object.getString("value");
-                paint.setColor(Integer.parseInt(color, 16));
+                paint.setColor(Color.parseColor(color));
                 switch (type) {
                     case "pic":
                         Bitmap qrcodeBit = CommonPrintThread.compressBitMap(CommonPrintThread.getBitMBitmap(value), width, height);
