@@ -120,7 +120,7 @@ public class CommonPrintThread {
 							Bitmap map = compressBitMap(bitmap, width, height);
 							TracePluginCommon.mBixolonPrinter.setLabelMode();
 //							TracePluginCommon.mBixolonPrinter.printDotMatrixBitmap(map, BixolonPrinter.ALIGNMENT_CENTER, 0, 50, true);
-							TracePluginCommon.mBixolonPrinter.printBitmap(map, BixolonPrinter.ALIGNMENT_CENTER, 0, 50, false, false, true);
+							TracePluginCommon.mBixolonPrinter.printBitmap(map, BixolonPrinter.ALIGNMENT_CENTER, 0, 50, false, true, true);
 							TracePluginCommon.mBixolonPrinter.formFeed(true);
 						}
 					} catch (Exception e) {
@@ -133,20 +133,23 @@ public class CommonPrintThread {
 	}
 
 	public static Bitmap compressBitMap(Bitmap bitmap, float willWidth, float willHeight) {
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		// 设置想要的大小
-		float scale = Math.min(willWidth / width, willHeight / height);
-		// 计算缩放比例
-		float scaleWidth = scale * width;
-		float scaleHeight = scale * height;
-		// 取得想要缩放的matrix参数
-		Matrix matrix = new Matrix();
-		matrix.postScale(scale, scale);
-		// 得到新的图片
-		Bitmap targetBitMap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix,
-			true);
-		return targetBitMap;
+		if (null != bitmap) {
+			int width = bitmap.getWidth();
+			int height = bitmap.getHeight();
+			// 设置想要的大小
+			float scale = Math.min(willWidth / width, willHeight / height);
+			// 计算缩放比例
+			float scaleWidth = scale * width;
+			float scaleHeight = scale * height;
+			// 取得想要缩放的matrix参数
+			Matrix matrix = new Matrix();
+			matrix.postScale(scale, scale);
+			// 得到新的图片
+			Bitmap targetBitMap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix,
+				true);
+			return targetBitMap;
+		}
+		return null;
 	}
 
 	public static Bitmap getBitMBitmap(String urlpath) {
