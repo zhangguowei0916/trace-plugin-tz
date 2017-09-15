@@ -119,9 +119,14 @@ public class CommonPrintThread {
 						} else {
 							Bitmap map = compressBitMap(bitmap, width, height);
 							TracePluginCommon.mBixolonPrinter.setLabelMode();
-//							TracePluginCommon.mBixolonPrinter.printDotMatrixBitmap(map, BixolonPrinter.ALIGNMENT_CENTER, 0, 50, true);
+//							TracePluginCommon.mBixolonPrinter.setReceiptMode();
+							//back-feeding enable
+							TracePluginCommon.mBixolonPrinter.executeDirectIo(new byte[]{0x1d, 0x28, 0x46, 0x04, 0x00, 0x03}, false);
+							TracePluginCommon.mBixolonPrinter.executeDirectIo(new byte[]{0x1d, 0x28, 0x46, 0x04, 0x00, 0x00, 0x00, (byte) 0x46, 0x00}, false);
 							TracePluginCommon.mBixolonPrinter.printBitmap(map, BixolonPrinter.ALIGNMENT_CENTER, 0, 50, false, true, true);
 							TracePluginCommon.mBixolonPrinter.formFeed(true);
+							TracePluginCommon.mBixolonPrinter.executeDirectIo(new byte[]{0x1d, 0x28, 0x46, 0x04, 0x00, 0x04}, false);
+
 						}
 					} catch (Exception e) {
 						showHandler.sendEmptyMessage(0);
