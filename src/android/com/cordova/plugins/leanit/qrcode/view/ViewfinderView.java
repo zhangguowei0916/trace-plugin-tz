@@ -33,7 +33,7 @@ import com.cordova.plugins.leanit.qrcode.camera.CameraManager;
 import java.util.Collection;
 import java.util.HashSet;
 
-import io.cordova.qrcodeTraceMobile.R;
+import io.cordova.qrcodeTraceTzMobile.R;
 
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder
