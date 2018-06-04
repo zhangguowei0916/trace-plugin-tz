@@ -22,9 +22,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -277,13 +279,13 @@ public class TracePluginCommon extends CordovaPlugin {
 						FileOutputStream fileOutputStream = null;
 						if (is != null) {
 							//对apk进行保存
-							chmod(cordova.getActivity().getFilesDir().getAbsolutePath());
+							chmod(cordova.getActivity().getExternalFilesDir("download/qrcode").getAbsolutePath());
 							File file;
 							//如果相等的话表示当前的sdcard挂载在手机上并且是可用的
 							if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 								file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "android-trace.apk");
 							} else {
-								file = new File(cordova.getActivity().getFilesDir().getAbsolutePath(), "android-trace.apk");
+								file = new File(cordova.getActivity().getExternalFilesDir("download/qrcode").getAbsolutePath(), "android-trace.apk");
 							}
 
 							fileOutputStream = new FileOutputStream(file);
@@ -403,11 +405,18 @@ public class TracePluginCommon extends CordovaPlugin {
 					if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 						file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "android-trace.apk");
 					} else {
-						file = new File(cordova.getActivity().getFilesDir().getAbsolutePath(), "android-trace.apk");
+						file = new File(cordova.getActivity().getExternalFilesDir("download/qrcode").getAbsolutePath(), "android-trace.apk");
 					}
-					chmod(cordova.getActivity().getFilesDir().getAbsolutePath());
-					intent.setDataAndType(Uri.fromFile(file),
-						"application/vnd.android.package-archive");
+					chmod(cordova.getActivity().getExternalFilesDir("download/qrcode").getAbsolutePath());
+					Uri uri=null;
+					if (Build.VERSION.SDK_INT >= 24) {
+						uri = FileProvider.getUriForFile(cordova.getActivity().getApplicationContext(), cordova.getActivity().getApplicationContext().getPackageName()+".provider", file);
+						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+					} else {
+						uri = Uri.fromFile(file);
+					}
+					intent.setDataAndType(uri,
+							"application/vnd.android.package-archive");
 					cordova.getActivity().startActivity(intent);
 					android.os.Process.killProcess(android.os.Process.myPid());
 					return true;
